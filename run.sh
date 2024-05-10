@@ -5,61 +5,81 @@ export COUNT=100000
 mkdir -p {dart,go,java,c,swift,kotlin}
 
 echo '\nDart (interpreted)'
-./hyperfine 'dart hello.dart' --warmup 2 --runs 10
-gtime -f "%es %MkB" dart hello.dart
+APP=(dart ./hello.dart)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 echo '\nDart (AOT compiled)'
 dart compile exe hello.dart -o dart/hello
-./hyperfine 'dart/hello' --warmup 2 --runs 10
-gtime -f "%es %MkB" dart/hello
+APP=(dart/hello)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 echo '\nGo (interpreted)'
-./hyperfine 'go run hello.go' --warmup 2 --runs 10
-gtime -f "%es %MkB" go run hello.go
+APP=(go run hello.go)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 echo '\nGo (compiled)'
 go build -o go hello.go
-./hyperfine 'go/hello' --warmup 2 --runs 10
-gtime -f "%es %MkB" go/hello
+APP=(go/hello)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 echo '\nJava (compiled)'
 javac -d java hello.java
-./hyperfine 'java -cp java HelloWorld' --warmup 2 --runs 10
-gtime -f "%es %MkB" java -cp java HelloWorld
+APP=(java -cp java HelloWorld)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 echo '\nNode'
-./hyperfine 'node hello.js' --warmup 2 --runs 10
-gtime -f "%es %MkB" node hello.js
+APP=(node hello.js)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 # echo '\nPython 3'
 # ./hyperfine 'python3 hello.py' --warmup 2 --runs 10
-# gtime -f "%es %MkB" python3 hello.py
+# /usr/bin/time -l -h -o log.txt python3 hello.py >/dev/null
 
 # echo '\nRuby'
 # ./hyperfine 'ruby hello.rb' --warmup 2 --runs 10
-# gtime -f "%es %MkB" ruby hello.rb
+# /usr/bin/time -l -h -o log.txt ruby hello.rb >/dev/null
 
 echo '\nShell [skip]'
 # ./hyperfine './hello.sh' --warmup 2 --runs 10
 
 echo '\nSwift (interpreted)'
-./hyperfine 'swift -O hello.swift' --warmup 2 --runs 10
-gtime -f "%es %MkB" swift -O hello.swift
+APP=(swift -O hello.swift)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 echo '\nSwift (compiled)'
 swiftc -O -o swift/hello hello.swift
-./hyperfine 'swift/hello' --warmup 2 --runs 10
-gtime -f "%es %MkB" swift/hello
+APP=(swift/hello)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 echo '\nC'
 gcc -O -o c/hello hello.c
-./hyperfine 'C/hello' --warmup 2 --runs 10
-gtime -f "%es %MkB" c/hello
+APP=(C/hello)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 echo '\nKotlin (compiled)'
 kotlinc hello.kt -include-runtime -d kotlin/hello.jar
-./hyperfine 'java -jar kotlin/hello.jar' --warmup 2 --runs 10
-gtime -f "%es %MkB" java -jar kotlin/hello.jar
+APP=(java -jar kotlin/hello.jar)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
 
 
 
