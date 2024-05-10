@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-export COUNT=10000
+export COUNT=100
 
 mkdir -p {dart,go,java}
 
@@ -49,5 +49,11 @@ echo '\nSwift (compiled)'
 swiftc -o swift/hello hello.swift
 ./hyperfine 'swift/hello' --warmup 10 --runs 100
 gtime -f "%es %MkB" swift/hello
+
+echo '\nC'
+gcc -o C/hello hello.c
+./hyperfine 'C/hello' --warmup 10 --runs 100
+gtime -f "%es %MkB" C/hello
+
 
 
