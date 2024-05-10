@@ -1,11 +1,13 @@
+import 'dart:io';
+
 void main() {
-  const count = 10000;
+  final count = int.parse(Platform.environment['COUNT']!);
   final primes = fillPrimesTil(count);
   print("${primes.length} primes between 1 and $count");
 }
 
 List<int> fillPrimesTil(int i) {
-  List<int> l = [1];
+  List<int> l = [];
   for (int count = 0; count < i; count++) {
     if (isPrime(count)) {
       l.add(count);

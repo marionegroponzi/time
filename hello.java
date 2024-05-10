@@ -3,9 +3,9 @@ import java.util.List;
 
 class HelloWorld {
   public static void main(String[] args) {
-    int count = 10000;
+    int count = Integer.parseInt(System.getenv("COUNT"));
     List<Integer> primes = fillPrimesTil(count);
-    System.out.println(String.format("%d primes between 0 and %d", primes.size(), count));
+    System.out.println(String.format("%d primes between 1 and %d", primes.size(), count));
   }
 
   private static List<Integer> fillPrimesTil(int i) {

@@ -1,12 +1,14 @@
 #!/bin/bash
 
+export COUNT=1000
+
 mkdir -p {dart,go,java}
 
 echo 'Dart (interpreted)'
 ./hyperfine 'dart hello.dart' --warmup 10 --runs 100
 
 echo 'Dart (AOT compiled)'
-dart compile exe hello.dart -o dart/hello 
+dart compile exe hello.dart -o dart/hello
 ./hyperfine 'dart/hello' --warmup 10 --runs 100
 
 echo 'Go (interpreted)'
