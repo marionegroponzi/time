@@ -16,6 +16,6 @@ function isPrime(number) {
     return true;
 }
 
-let count = 10000;
-let primes = fillPrimesTil(10000);
+let count = parseInt(process.env.COUNT);
+let primes = fillPrimesTil(count);
 console.log(`${primes.length} primes between 1 and ${count}`);
