@@ -31,6 +31,6 @@ echo 'Python 3'
 echo 'Ruby'
 ./hyperfine 'ruby hello.rb' --warmup 10 --runs 100
 
-echo 'Shell'
-./hyperfine './hello.sh' --warmup 10 --runs 100
+# echo 'Shell'
+# ./hyperfine './hello.sh' --warmup 10 --runs 100
 
