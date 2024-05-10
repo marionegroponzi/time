@@ -1,4 +1,6 @@
 {
     "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "lldb.library": "/Applications/Xcode_15.3.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/LLDB",
+    "lldb.launch.expressions": "native"
 }
