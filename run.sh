@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-export COUNT=100000
+export COUNT=200000
 
 mkdir -p {dart,go,java,c,swift,kotlin}
 
@@ -67,9 +67,16 @@ APP=(swift/hello)
 /usr/bin/time -l -h -o log.txt $APP >/dev/null
 awk 'NR==2; END{print}' log.txt
 
-echo '\nC'
+echo '\nC (gcc)'
 gcc -O -o c/hello hello.c
 APP=(C/hello)
+./hyperfine "$APP" --warmup 2 --runs 10
+/usr/bin/time -l -h -o log.txt $APP >/dev/null
+awk 'NR==2; END{print}' log.txt
+
+echo '\nC (clang)'
+cc -Ofast -o c/hellocc hello.c
+APP=(C/hellocc)
 ./hyperfine "$APP" --warmup 2 --runs 10
 /usr/bin/time -l -h -o log.txt $APP >/dev/null
 awk 'NR==2; END{print}' log.txt
