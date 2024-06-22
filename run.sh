@@ -25,8 +25,11 @@ APP=(go/hello)
 ./measure_metrics.sh $APP
 
 echo '\nJava (compiled)'
-javac -d java hello.java
-APP=(java -cp java HelloWorld)
+cd java
+javac -d . ../com/negroponzi/hello.java
+jar cfe Hello.jar com.negroponzi.HelloWorld com/negroponzi/HelloWorld.class
+cd ..
+APP=(java -jar java/Hello.jar)
 ./measure_metrics.sh $APP
 
 echo '\nNode'
@@ -64,12 +67,7 @@ APP=(C/hellocc)
 ./measure_metrics.sh $APP
 
 echo '\nKotlin (JVM with runtime)'
-kotlinc hello.kt -include-runtime -d kotlin/hellor.jar
-APP=(java -jar kotlin/hellor.jar)
-./measure_metrics.sh $APP
-
-echo '\nKotlin (JVM without runtime)'
-kotlinc hello.kt -d kotlin/hello.jar
+kotlinc hello.kt -include-runtime -d kotlin/hello.jar
 APP=(java -jar kotlin/hello.jar)
 ./measure_metrics.sh $APP
 
