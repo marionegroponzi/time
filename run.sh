@@ -1,8 +1,8 @@
 #!/bin/zsh
 
-export COUNT=200000
+export COUNT=500000
 
-mkdir -p {dart,go,java,c,swift,kotlin,kotlinNative}
+mkdir -p {dart,go,java,c,swift,kotlin,kotlinNative,rust}
 
 echo "" > "./program_metrics.log"
 
@@ -76,3 +76,7 @@ kotlinc-native -opt helloNative.kt -o kotlinNative/hello
 APP=(kotlinNative/hello.kexe)
 ./measure_metrics.sh $APP
 
+echo '\nRust'
+rustc -O ./hello.rs -o rust/hello
+APP=(rust/hello)
+./measure_metrics.sh $APP
