@@ -5,7 +5,10 @@ go/**
 java/**
 swift/**
 C/**
+kotlin/*
+kotlinNative/*
 
 results/**
 
 log.txt
+metrics.tmp

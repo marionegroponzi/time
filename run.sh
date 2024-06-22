@@ -2,46 +2,36 @@
 
 export COUNT=200000
 
-mkdir -p {dart,go,java,c,swift,kotlin}
+mkdir -p {dart,go,java,c,swift,kotlin,kotlinNative}
+
+echo "" > "./program_metrics.log"
 
 echo '\nDart (interpreted)'
 APP=(dart ./hello.dart)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
 echo '\nDart (AOT compiled)'
 dart compile exe hello.dart -o dart/hello
 APP=(dart/hello)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
 echo '\nGo (interpreted)'
 APP=(go run hello.go)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
 echo '\nGo (compiled)'
 go build -o go hello.go
 APP=(go/hello)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
 echo '\nJava (compiled)'
 javac -d java hello.java
 APP=(java -cp java HelloWorld)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
 echo '\nNode'
 APP=(node hello.js)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
 # echo '\nPython 3'
 # ./hyperfine 'python3 hello.py' --warmup 2 --runs 10
@@ -56,37 +46,35 @@ echo '\nShell [skip]'
 
 echo '\nSwift (interpreted)'
 APP=(swift -O hello.swift)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
 echo '\nSwift (compiled)'
 swiftc -O -o swift/hello hello.swift
 APP=(swift/hello)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
 echo '\nC (gcc)'
 gcc -O -o c/hello hello.c
 APP=(C/hello)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
 echo '\nC (clang)'
 cc -Ofast -o c/hellocc hello.c
 APP=(C/hellocc)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
-echo '\nKotlin (compiled)'
-kotlinc hello.kt -include-runtime -d kotlin/hello.jar
+echo '\nKotlin (JVM with runtime)'
+kotlinc hello.kt -include-runtime -d kotlin/hellor.jar
+APP=(java -jar kotlin/hellor.jar)
+./measure_metrics.sh $APP
+
+echo '\nKotlin (JVM without runtime)'
+kotlinc hello.kt -d kotlin/hello.jar
 APP=(java -jar kotlin/hello.jar)
-./hyperfine "$APP" --warmup 2 --runs 10
-/usr/bin/time -l -h -o log.txt $APP >/dev/null
-awk 'NR==2; END{print}' log.txt
+./measure_metrics.sh $APP
 
-
+echo '\nKotlin (native)'
+kotlinc-native -opt helloNative.kt -o kotlinNative/hello
+APP=(kotlinNative/hello.kexe)
+./measure_metrics.sh $APP
 
