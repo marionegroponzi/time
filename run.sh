@@ -3,6 +3,7 @@
 export COUNT=250000
 rm -fr 
 
+rm -fr {dart,go,java,c,swift,kotlin,kotlinNative,rust}
 mkdir -p {dart,go,java,c,swift,kotlin,kotlinNative,rust}
 
 echo "" > "./program_metrics.log"

@@ -2,6 +2,7 @@
 
 export COUNT=250000
 export TIMEFMT="%E %M kb"
+rm -fr {dart,go,java,c,swift,kotlin,kotlinNative,rust}
 mkdir -p {dart,go,java,c,swift,kotlin,kotlinNative,rust}
 
 echo -n "Dart compile: "
