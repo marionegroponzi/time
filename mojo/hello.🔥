@@ -1,0 +1,19 @@
+import os
+
+fn fillPrimesTil(i: Int) -> List[Int]:
+    var l: List[Int] = List[Int]()
+    for count in range(i):
+        if isPrime(count):
+            l.append(count)
+    return l
+
+fn isPrime(number: Int) -> Bool:
+    if number <= 1: return False
+    for i in range(2, number):
+        if number%i == 0: return False
+    return True
+
+fn main() raises:
+    var count = atol(os.env.getenv('COUNT'))
+    var primes = fillPrimesTil(count)
+    print(len(primes), "primes between 1 and", count);
