@@ -1,30 +1,31 @@
 #!/bin/zsh
 
-export COUNT=500000
+export COUNT=250000
+rm -fr 
 
 mkdir -p {dart,go,java,c,swift,kotlin,kotlinNative,rust}
 
 echo "" > "./program_metrics.log"
 
-echo '\nDart (interpreted)'
-APP=(dart ./hello.dart)
-./measure_metrics.sh $APP
+# echo '\nDart (interpreted)'
+# APP=(dart ./hello.dart)
+# ./measure_metrics.sh $APP
 
-echo '\nDart (AOT compiled)'
+echo '\nDart'
 dart compile exe hello.dart -o dart/hello
 APP=(dart/hello)
 ./measure_metrics.sh $APP
 
-echo '\nGo (interpreted)'
-APP=(go run hello.go)
-./measure_metrics.sh $APP
+# echo '\nGo (interpreted)'
+# APP=(go run hello.go)
+# ./measure_metrics.sh $APP
 
-echo '\nGo (compiled)'
+echo '\nGo'
 go build -o go hello.go
 APP=(go/hello)
 ./measure_metrics.sh $APP
 
-echo '\nJava (compiled)'
+echo '\nJava'
 cd java
 javac -d . ../com/negroponzi/hello.java
 jar cfe Hello.jar com.negroponzi.HelloWorld com/negroponzi/HelloWorld.class
@@ -44,14 +45,14 @@ APP=(node hello.js)
 # ./hyperfine 'ruby hello.rb' --warmup 2 --runs 10
 # /usr/bin/time -l -h -o log.txt ruby hello.rb >/dev/null
 
-echo '\nShell [skip]'
+# echo '\nShell'
 # ./hyperfine './hello.sh' --warmup 2 --runs 10
 
-echo '\nSwift (interpreted)'
-APP=(swift -O hello.swift)
-./measure_metrics.sh $APP
+# echo '\nSwift (interpreted)'
+# APP=(swift -O hello.swift)
+# ./measure_metrics.sh $APP
 
-echo '\nSwift (compiled)'
+echo '\nSwift'
 swiftc -O -o swift/hello hello.swift
 APP=(swift/hello)
 ./measure_metrics.sh $APP

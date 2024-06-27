@@ -13,3 +13,7 @@ results/**
 
 log.txt
 metrics.tmp
+program_metrics.log
+
+.DS_Store
+
